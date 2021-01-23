@@ -1,38 +1,58 @@
-.App {
-  text-align: center;
+.grid {
+    display: flex;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.col:nth-child(3n + 1) {
+    border-left: 3px solid white;
+}
+.col:nth-child(3n +3) {
+    border-right: 3px solid white;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    height: 30px;
+    width: 30px;
+    border: 1px solid white;
+}
+    .cell:nth-child(3n + 1) {
+        border-top: 3px solid white;
+    }
+    .cell:nth-child(3n + 3) {
+        border-bottom: 3px solid white;
+    }
+    .cell:hover {
+        background-color: white;
+        color: black;
+    }
+
+.selected {
+    background: white;
+    color: black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.invalid {
+    background: red;
 }
 
-.App-link {
-  color: #61dafb;
+.selectNumber {
+    display: flex;
+    margin-top: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.numberButton {
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+    .numberButton:hover{
+        background-color: white;
+        color: black;
+    }
