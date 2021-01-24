@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Cell } from './Cell';
 import { SelectNumber } from './SelectNumber';
-import { SudokuCell } from '../common/classes';
+import { SudokuCell, LevelEnum } from '../common/classes';
 import { generateSudokuGrid, validateBoard, isCellTheSame } from '../common/helpers';
+import { SetDifficulty } from './SetDifficulty';
 
 export default class Grid extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            gameBoard: generateSudokuGrid(),
+            gameBoard: generateSudokuGrid(LevelEnum.easy),
             selectedCell: new SudokuCell(),
             errors: []
         };
@@ -17,9 +18,11 @@ export default class Grid extends Component {
         this.selectCell = this.selectCell.bind(this);
         this.setCellValue = this.setCellValue.bind(this);
         this.doesCellHaveError = this.doesCellHaveError.bind(this);
+        this.generateBoard = this.generateBoard.bind(this);
     }
 
     selectCell(chooseMe) {
+        console.log(chooseMe)
         if (chooseMe !== this.state.selectedCell) {
             this.setState((state, props) => ({
                 gameBoard: state.gameBoard,
@@ -67,9 +70,21 @@ export default class Grid extends Component {
         return false;
     }
 
+    generateBoard(level) {
+        let board = generateSudokuGrid(level);
+
+        this.setState({
+            gameBoard: board,
+            selectedCell: new SudokuCell(),
+            errors: []
+        });
+    }
+
     render() {
         return (
-            <React.Fragment>
+            <div className="game-board">
+                <SetDifficulty generateBoard={this.generateBoard} />
+
                 <div className="grid">
                     {this.state.gameBoard.map((row, rowIndex) => 
                         <div 
@@ -81,19 +96,21 @@ export default class Grid extends Component {
                                     key={cellIndex}
                                     className={
                                         this.doesCellHaveError(currentCell) ? 
-                                        'cell invalid' : (this.state.selectedCell === currentCell) ? 'cell selected' : 'cell'
+                                        'cell invalid' : (this.state.selectedCell === currentCell) ? 
+                                        'cell selected' : currentCell.locked ? 
+                                        'cell locked' : 'cell'
                                     }
-                                    cell={currentCell}
+                                    number={currentCell.number}
+                                    locked={currentCell.locked}
                                     onClick={() => this.selectCell(currentCell)}
                                 />
                             )}
                         </div>
                     )}
                 </div>
-                <SelectNumber
-                    setValue={this.setCellValue}
-                />
-            </React.Fragment>
+
+                <SelectNumber setValue={this.setCellValue} />
+            </div>
         )
     }
 }

@@ -3,10 +3,10 @@ import React from 'react';
 export const Cell = (props) => {
     return (
         <div
-            onClick={props.onClick}
+            onClick={props.locked ? () => {} : props.onClick}
             className={props.className}
         >
-            {props.cell.number}
+            {props.number}
         </div>
     )
 }

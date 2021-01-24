@@ -1,19 +1,54 @@
 import { SudokuCell, SudokuError, ErrorEnum } from './classes';
 
-export const generateSudokuGrid = () => {
+export const generateSudokuGrid = (level) => {
     let grid = [];
+    let numbersPlaced = 0;
 
     for (let i = 0; i < 9; i++) {
         let currentCol = [];
         for (let j = 0; j < 9; j++) {
             let cell = new SudokuCell(i, j, determineBlock(i, j), null);
+
             currentCol.push(cell);
         }
 
         grid.push(currentCol);
     }
 
+    do {
+        let x = generateRandomNumberInclusive(0, 8);
+        let y = generateRandomNumberInclusive(0, 8);
+        let placeNumber = Math.random() < 0.5;
+
+        if (placeNumber) {
+            let randomNumber = generateRandomNumberInclusive(1, 9);
+
+            if (grid[x][y].number === null) {
+                grid[x][y].number = randomNumber;
+
+                if (isCellValid(grid[x][y], grid).errorType === 0) {
+                    grid[x][y].locked = true;
+                    numbersPlaced++;
+                } else {
+                    grid[x][y].number = null;
+                }
+            }
+        }
+
+    } while (numbersPlaced < level);
+
     return grid;
+}
+
+export const selectCell = (x, y, grid) => {
+    return grid[x][y];
+}
+
+export const generateRandomNumberInclusive = (a, b) => {
+    const min = Math.ceil(a);
+    const max = Math.floor(b);
+
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 export const determineBlock = (row, col) => {
