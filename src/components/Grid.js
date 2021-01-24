@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Cell } from './Cell';
 import { SelectNumber } from './SelectNumber';
-import { SudokuCell, LevelEnum } from '../common/classes';
+import { SudokuCell, LevelEnum } from '../common/types';
 import { generateSudokuGrid, validateBoard, isCellTheSame } from '../common/helpers';
 import { SetDifficulty } from './SetDifficulty';
 
@@ -22,7 +22,6 @@ export default class Grid extends Component {
     }
 
     selectCell(chooseMe) {
-        console.log(chooseMe)
         if (chooseMe !== this.state.selectedCell) {
             this.setState((state, props) => ({
                 gameBoard: state.gameBoard,
@@ -102,7 +101,7 @@ export default class Grid extends Component {
                                     }
                                     number={currentCell.number}
                                     locked={currentCell.locked}
-                                    onClick={() => this.selectCell(currentCell)}
+                                    selectCell={() => this.selectCell(currentCell)}
                                 />
                             )}
                         </div>

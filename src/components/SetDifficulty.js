@@ -1,5 +1,5 @@
 import React from 'react';
-import { LevelEnum } from '../common/classes';
+import { LevelEnum } from '../common/types';
 
 export const SetDifficulty = (props) => {
     return (

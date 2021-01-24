@@ -1,5 +1,6 @@
-import { SudokuCell, SudokuError, ErrorEnum } from './classes';
+import { SudokuCell, SudokuError, ErrorEnum } from './types';
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~ Board Generation ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export const generateSudokuGrid = (level) => {
     let grid = [];
     let numbersPlaced = 0;
@@ -40,18 +41,14 @@ export const generateSudokuGrid = (level) => {
     return grid;
 }
 
-export const selectCell = (x, y, grid) => {
-    return grid[x][y];
-}
-
-export const generateRandomNumberInclusive = (a, b) => {
+const generateRandomNumberInclusive = (a, b) => {
     const min = Math.ceil(a);
     const max = Math.floor(b);
 
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export const determineBlock = (row, col) => {
+const determineBlock = (row, col) => {
     if (row < 3) {
         if (col < 3) {
             return 0;
@@ -86,7 +83,9 @@ export const determineBlock = (row, col) => {
         }
     }
 }
+//~~~~~~~~~~~~~~~~~~~~~~~~~ Board Generation ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~ Board Validation ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 export const validateBoard = (board) => {
     let errors = [];
 
@@ -103,7 +102,15 @@ export const validateBoard = (board) => {
     return errors;
 }
 
-export const isCellValid = (cell, board) => {
+export const isCellTheSame = (c1, c2) => {
+    if (c1.col === c2.col && c1.row === c2.row) {
+        return true;
+    }
+
+    return false;
+}
+
+const isCellValid = (cell, board) => {
     if (!isColValid(cell, board[cell.col])) {
         return new SudokuError(cell, ErrorEnum.colError);
     }
@@ -133,7 +140,7 @@ export const isCellValid = (cell, board) => {
     return new SudokuError();
 }
 
-export const isRowValid = (cell, row) => {
+const isRowValid = (cell, row) => {
     for (let i = 0; i < row.length; i++) {
         if (cell.number === null && row[i].number === null) {
             return true;
@@ -146,7 +153,7 @@ export const isRowValid = (cell, row) => {
     return true;
 }
 
-export const isColValid = (cell, col) => {
+const isColValid = (cell, col) => {
     for (let i = 0; i < col.length; i++) {
         if (cell.number === null && col[i].number === null) {
             return true;
@@ -159,7 +166,7 @@ export const isColValid = (cell, col) => {
     return true;
 }
 
-export const isBlockValid = (cell, block) => {
+const isBlockValid = (cell, block) => {
     for (let i = 0; i < block.length; i++) {
         if (cell.number === null && block[i].number === null) {
             return true;
@@ -171,11 +178,4 @@ export const isBlockValid = (cell, block) => {
 
     return true;
 }
-
-export const isCellTheSame = (c1, c2) => {
-    if (c1.col === c2.col && c1.row === c2.row) {
-        return true;
-    }
-
-    return false;
-}
+//~~~~~~~~~~~~~~~~~~~~~~~~~ Board Validation ~~~~~~~~~~~~~~~~~~~~~~~~~~~
